@@ -1,0 +1,4 @@
+﻿  threadpool.cpp
+threadpool.obj : error LNK2005: _main already defined in main.obj
+main.obj : error LNK2019: unresolved external symbol "void __cdecl threadpool(void)" (?threadpool@@YAXXZ) referenced in function _main
+C:\Users\annep\source\repos\Concurrent\Debug\Concurrent.exe : fatal error LNK1120: 1 unresolved externals
