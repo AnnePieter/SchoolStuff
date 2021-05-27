@@ -2,7 +2,7 @@
 #include "mandelbrot.h"
 #include "dotproduct.h"
 #include "tree.h"
-#include "threadpool.h"
+//#include "threadpool.h"
 
 #define Wait std::cout << "Press Enter to continue \n"; std::getLine() 
 
