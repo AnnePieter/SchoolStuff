@@ -2,7 +2,7 @@
 #include "mandelbrot.h"
 #include "dotproduct.h"
 #include "tree.h"
-//#include "threadpool.h"
+#include "threadpool.h"
 
 #define Wait std::cout << "Press Enter to continue \n"; std::getLine() 
 
@@ -38,27 +38,12 @@ int main()
 			tree();
 			break;
 		case 6:
-			// threadpool();
+			threadpool();
 			break;
 		case 7:
 			return 0;
 		default:
 			std::cout << "Please input a number listed to continue";
-		}
-		while (arg != 'y' && arg != 'n') 
-		{
-			std::cout << "Do you want to continue [y/n]:";
-			std::cin >> arg;
-			switch (arg)
-			{
-			case 'y':
-				std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n";
-				break;
-			case 'n':
-				return 0;
-			default:
-				std::cout << "please use a lower case y or n\n";
-			}
 		}
 	}
 

@@ -62,7 +62,10 @@ private:
 
 class IntNode: public LeafNode {
 public:
-    int eval() { return n; }
+    int eval() {
+        std::cout << std::this_thread::get_id() << std::endl;
+
+        return n; }
 private:
     friend class Tree;
     int n;
@@ -72,7 +75,10 @@ private:
 
 class IdNode: public LeafNode {
 public:
-    int eval() { return valtab[name]; }
+    int eval() { 
+        std::cout << std::this_thread::get_id() << std::endl;
+
+        return valtab[name]; }
 private:
     friend class Tree;
     char name;
@@ -93,6 +99,8 @@ private:
 
 int UnaryNode::eval()
 {
+    std::cout << std::this_thread::get_id() << std::endl;
+
     switch (op) {
         case '-': return (-opnd.eval());
         case '+': return (+opnd.eval());
@@ -115,6 +123,7 @@ private:
 
 int BinaryNode::eval()
 {    
+    std::cout << std::this_thread::get_id() << std::endl;
     std::future<int> l, r;
     switch (op) {
         case '-':

@@ -9,8 +9,14 @@
 #include <deque>
 #include <functional>
 #include <condition_variable>
+#include <atomic>
 
 class ThreadPool; // forward declare
+
+std::condition_variable READY_CV;
+std::condition_variable PROCESSED_CV;
+std::atomic<bool> ready(false);
+std::atomic<bool> processed(false);
 
 class Worker {
 public:
@@ -49,6 +55,9 @@ void Worker::operator()()
 			pool.tasks.pop_front();
 			locker.unlock();
 			task();
+			
+            processed = true;
+            PROCESSED_CV.notify_one();
 		}
 		else {
 			locker.unlock();
@@ -77,9 +86,14 @@ void ThreadPool::enqueue(F f)
 {
 	std::unique_lock<std::mutex> lock(queue_mutex);
 	tasks.push_back(std::function<void()>(f));
+
+	processed = false;
+    ready = true;
+    READY_CV.notify_one();
+    PROCESSED_CV.wait(lock, [] { return processed.load(); });
 }
 
-int main()
+int threadpool()
 {
 	ThreadPool pool(4);
 	// queue a bunch of "work items"
@@ -88,8 +102,6 @@ int main()
 
 	// wait for keypress to give worker threads the opportunity to finish tasks
 	std::cin.ignore();
-
-
-
+	return 0;
 }
 
